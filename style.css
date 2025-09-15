@@ -1,0 +1,94 @@
+body { 
+  font-family: "Mountains of Christmas", serif;
+  font-weight: 700;
+  font-style: normal;
+  background: black;
+  color: white;
+  font-size: 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;    
+  margin: 0;
+  text-align: center;
+    }
+    #game-board {
+      margin: 40px auto;
+      width: 320px;
+      display: grid;
+      grid-template-columns: repeat(2, 150px);
+      grid-gap: 20px;
+    }
+    .btn {
+      width: 150px;
+      height: 150px;
+    }
+    .active {
+      opacity: 1;
+      box-shadow: 0 0 30px #fff;
+    }
+    #green { background:green; }
+    #red { background: red; }
+    #yellow { background:yellow; }
+    #blue { background: blue; }
+    #reset-btn {
+      margin-top: 30px;
+      padding: 12px 32px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+      background: grey;
+      color: white;
+    }
+     .start-btn {
+      margin-top: 30px;
+      padding: 12px 32px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+      background: grey;
+      color: white;
+    }
+    #nameSubmit{
+      margin-top: 30px;
+      padding: 12px 32px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+      background: grey;
+      color: white;
+    }
+
+
+    .level{
+      margin-top: 30px;
+      padding: 12px 32px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+      background: grey;
+      color: white;
+    }
+    .hide {
+    display: none;
+  }
+
+  h2{
+    font-family: "Borel", cursive;
+  font-weight: 400;
+  font-style: normal;
+  }
+h3{
+  font-family: "Borel", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#input-box{
+  margin-top: 30px;
+      padding: 12px 32px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+}
