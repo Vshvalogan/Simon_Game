@@ -2,6 +2,7 @@
 let score = 0;
 let color=["green","red","yellow","blue"]
 let colournumber = [];
+let playerIndex = 0;
 /*-------------------------------- Variables --------------------------------*/
 
 /*------------------------ Cached Element References ------------------------*/
@@ -34,6 +35,8 @@ function handlereset(){
   document.getElementById("enteredname").textContent= "";
   document.getElementById("welcomeScreen").classList.remove("hide");
   document.getElementById("gamescreen").classList.add("hide");
+  document.getElementById("status").classList.add("hide");
+  document.getElementById("start-color-button").classList.remove("hide")
 }
 function highlightButton(colorId) {
   const btn = document.getElementById(colorId);
@@ -57,15 +60,32 @@ function sequencehighlight(){
       highlightButton(x); 
     }, i * 800); // https://stackoverflow.com/questions/63908648/settimeout-classlist-add-remove-very-erratic
   }
+
 }
 
 function handlestart(){
   document.getElementById("status").textContent="Status: Watch your Sequence";
-  document.getElementById("status").classList.remove("hide");   
+  document.getElementById("status").classList.remove("hide");
+  document.getElementById("start-color-button").classList.add("hide")   
   coloursequence();
   sequencehighlight();
-
 }
+
+function handleGameButtonClick(colorId){
+  highlightButton(colorId);
+  const clickedIndex = color.indexOf(colorId);
+  if (clickedIndex !== colournumber[playerIndex]) {
+    document.getElementById("status").textContent = "Status: You lose";
+    return;
+  }
+  playerIndex++;
+  if (playerIndex === colournumber.length) {
+    document.getElementById("status").textContent = "Status: You win!";
+    score = score+1;
+    document.getElementById("score").textContent = `Score: ${score}`;
+  }
+}
+
 /*----------------------------- Event Listeners -----------------------------*/
 
 for (let i = 0; i < levelButtons.length; i++) {
@@ -74,10 +94,11 @@ for (let i = 0; i < levelButtons.length; i++) {
 getname.addEventListener("click", handleNameSubmit);
 startgame.addEventListener("click", handleStartgame);
 resetgame.addEventListener("click",handlereset);
+start.addEventListener("click",handlestart);
 
 for (let i = 0; i < gameButtons.length; i++) {
-  gameButtons[i].addEventListener("click", () => {
-    highlightButton(gameButtons[i].id);
+  gameButtons[i].addEventListener("click", function () {
+    handleGameButtonClick(gameButtons[i].id);
   });
-}
-start.addEventListener("click",handlestart);
+} 
+resetgame.addEventListener("click",handlereset);

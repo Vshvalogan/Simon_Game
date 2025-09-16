@@ -92,3 +92,11 @@ h3{
       border-radius: 8px;
       border: none;
 }
+#score {
+  font-family: "Borel", cursive;
+  font-weight: 400;
+  font-style: normal;
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
