@@ -97,7 +97,7 @@ resetgame.addEventListener("click",handlereset);
 start.addEventListener("click",handlestart);
 
 for (let i = 0; i < gameButtons.length; i++) {
-  gameButtons[i].addEventListener("click", function () {
+  gameButtons[i].addEventListener("click",  () =>  {
     handleGameButtonClick(gameButtons[i].id);
   });
 } 
