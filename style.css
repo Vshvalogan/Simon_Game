@@ -32,6 +32,10 @@ body {
     #red { background: red; }
     #yellow { background:yellow; }
     #blue { background: blue; }
+    #orange { background: orange; }
+    #purple { background: purple; }
+    #pink   { background: hotpink; }
+    #cyan   { background: cyan; }
     #reset-btn {
       margin-top: 30px;
       padding: 12px 32px;
