@@ -7,6 +7,9 @@ let currentLevel = "Easy";
 let seqLen = 4;
 let roundsWon = 0;        // how many rounds won in this game (0..3)
 const nextRoundTarget = 3; // win after 3 rounds
+let lives = 1;
+let gameOver = false;
+
 
 /*-------------------------------- Variables --------------------------------*/
 
@@ -30,6 +33,7 @@ function handleLevelClick(e) {
 function handleNameSubmit() {
   const text = document.querySelector("#input-box").value;
   document.getElementById("enteredname").textContent= text;
+  
   if (text !== "") {
     document.getElementById("name").classList.add("hide");
     document.getElementById("start").classList.remove("hide");
@@ -81,17 +85,18 @@ function coloursequence(){
   if (currentLevel === "Difficult") {
     // 6 colours, 8 steps
     palette = ["green","red","yellow","blue","orange","purple"];
-    seqLen = 8;
+    seqLen = 6;
     ["orange","purple"].forEach(id =>
       document.getElementById(id).classList.remove("hide")
     );
   } else if (currentLevel === "Hard") {
     // 8 colours, 10 steps
     palette = ["green","red","yellow","blue","orange","purple","pink","cyan"];
-    seqLen = 10;
+    seqLen = 8;
     ["orange","purple","pink","cyan"].forEach(id =>
       document.getElementById(id).classList.remove("hide")
     );
+              
   }
 
   colournumber = [];
@@ -99,6 +104,14 @@ function coloursequence(){
     const randomNumber = Math.floor(Math.random() * palette.length);
     colournumber.push(randomNumber);
   }
+  if (currentLevel === "Hard") {
+  lives = 3;
+  } else if (currentLevel === "Difficult") {
+  lives = 2;
+  } else {
+  lives = 1; // Easy
+  }
+
 }
 
 
@@ -121,7 +134,7 @@ function handlestart(){
   sequencehighlight();
   playerIndex = 0;
   nextRoundBtn.classList.add("hide");
-
+  gameOver = false;
 
 }
 
@@ -129,17 +142,32 @@ function handleGameButtonClick(colorId){
   highlightButton(colorId);
   const clickedIndex = palette.indexOf(colorId);
   if (clickedIndex !== colournumber[playerIndex]) {
-    document.getElementById("status").textContent = "Status: You lose";
+    if (gameOver) return;
+
+    lives -= 1;
+    document.getElementById("lives").textContent = `Lives: ${lives}`;
+    if (lives <= 0) {
+      document.getElementById("status").textContent = "Life over — Game ends.";
+      gameOver = true;
+      nextRoundBtn.classList.add("hide");
+      return;
+    }
+
+    // still have lives: inform and replay same sequence
+    document.getElementById("status").textContent = `Wrong! Lives left: ${lives}. Watch the sequence again.`;
+    playerIndex = 0;               
+    setTimeout(() => sequencehighlight(), 600); 
     return;
   }
+
   playerIndex++;
   if (playerIndex === colournumber.length) {
   document.getElementById("status").textContent = "Status: You win!";
 
   // Score by difficulty
-  if (seqLen === 10) {
+  if (seqLen === 8) {
     score = score + 3;
-  } else if (seqLen === 8) {
+  } else if (seqLen === 6) {
     score = score + 2;
   } else {
     score = score + 1;
@@ -147,9 +175,7 @@ function handleGameButtonClick(colorId){
   document.getElementById("score").textContent = `Score: ${score}`;
 
   // also show score under the name
-  const nameOnly = document.getElementById("enteredname").textContent.split(" - ")[0];
-  document.getElementById("enteredname").textContent = `${nameOnly} - Score: ${score}`;
-
+  
   // Round progression
   roundsWon += 1;
 
@@ -167,6 +193,7 @@ function handleGameButtonClick(colorId){
 
 function handleNextRound() {
   // prepare next round in same level
+  gameOver = false;
   playerIndex = 0;
   document.getElementById("status").textContent = "Status: Watch your Sequence";
   nextRoundBtn.classList.add("hide");          // hide the button while playing
