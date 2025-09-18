@@ -9,6 +9,16 @@ let roundsWon = 0;        // how many rounds won in this game (0..3)
 const nextRoundTarget = 3; // win after 3 rounds
 let lives = 1;
 let gameOver = false;
+// ---- Sounds (make sure filenames & path are correct) ----
+// ---- Sounds (grab existing <audio> elements) ----
+const SND = {
+  beep:  document.getElementById("snd-beep"),
+  wrong: document.getElementById("snd-wrong"),
+  next:  document.getElementById("snd-next"),
+  win:   document.getElementById("snd-win"),
+  lose:  document.getElementById("snd-lose"),
+};
+
 
 
 /*-------------------------------- Variables --------------------------------*/
@@ -67,6 +77,8 @@ function handlereset(){
 function highlightButton(colorId) {
   const btn = document.getElementById(colorId);
   btn.classList.add("active");
+  // play beep on every highlight (sequence + correct click)
+  playSound(SND.beep);
 
   setTimeout(() => {
     btn.classList.remove("active");      //https://stackoverflow.com/questions/63908648/settimeout-classlist-add-remove-very-erratic
@@ -142,23 +154,32 @@ function handleGameButtonClick(colorId){
   highlightButton(colorId);
   const clickedIndex = palette.indexOf(colorId);
   if (clickedIndex !== colournumber[playerIndex]) {
-    if (gameOver) return;
+  if (gameOver) return;
 
-    lives -= 1;
-    document.getElementById("lives").textContent = `Lives: ${lives}`;
-    if (lives <= 0) {
-      document.getElementById("status").textContent = "Life over — Game ends.";
-      gameOver = true;
-      nextRoundBtn.classList.add("hide");
-      return;
-    }
+  lives -= 1;
+  const livesBox = document.getElementById("lives");
+  if (livesBox) livesBox.textContent = `Lives: ${lives}`;
 
-    // still have lives: inform and replay same sequence
-    document.getElementById("status").textContent = `Wrong! Lives left: ${lives}. Watch the sequence again.`;
-    playerIndex = 0;               
-    setTimeout(() => sequencehighlight(), 600); 
+  // play "wrong" sound on every wrong click
+  playSound(SND.wrong);
+
+  if (lives <= 0) {
+    document.getElementById("status").textContent = "Life over — Game ends.";
+    gameOver = true;
+    nextRoundBtn.classList.add("hide");
+    // overall lose sound
+    playSound(SND.lose);
     return;
   }
+
+  // still have lives: inform and replay same sequence
+  document.getElementById("status").textContent = `Wrong! Lives left: ${lives}. Watch the sequence again.`;
+  document.getElementById("start-color-button").classList.add("hide");
+  playerIndex = 0;
+  setTimeout(() => sequencehighlight(), 600);
+  return;
+}
+
 
   playerIndex++;
   if (playerIndex === colournumber.length) {
@@ -174,20 +195,22 @@ function handleGameButtonClick(colorId){
   }
   document.getElementById("score").textContent = `Score: ${score}`;
 
-  // also show score under the name
-  
   // Round progression
   roundsWon += 1;
 
   if (roundsWon >= nextRoundTarget) {
     document.getElementById("status").textContent = "🎉 You won the game!";
-    nextRoundBtn.classList.add("hide"); // no more rounds
+    nextRoundBtn.classList.add("hide");
+    // overall win sound
+    playSound(SND.win);
   } else {
-    // show Next Round button
+    // show Next Round button & play next-level sound
     nextRoundBtn.classList.remove("hide");
     document.getElementById("status").textContent = `Round ${roundsWon} complete — press Next Round`;
+    playSound(SND.next);
   }
 }
+
 
 }
 
@@ -202,6 +225,14 @@ function handleNextRound() {
   // new sequence, same level
   coloursequence();
   sequencehighlight();
+}
+// small helper so rapid repeats work
+function playSound(audio) {
+  try {
+    audio.currentTime = 0;
+    const p = audio.play();
+    if (p && typeof p.catch === "function") p.catch(() => {});
+  } catch (_) {}
 }
 
 
