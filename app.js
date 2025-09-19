@@ -91,7 +91,7 @@ function handleQuitGame() {
   document.getElementById("start").classList.add("hide");
   document.getElementById("status").classList.add("hide");
   nextRoundBtn.classList.add("hide");
-
+  document.getElementById("enteredname").textContent= "";
   document.getElementById("welcomeScreen").classList.remove("hide");
 }
 
