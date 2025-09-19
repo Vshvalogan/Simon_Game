@@ -403,6 +403,20 @@ HTML5 – structure, audio, buttons
 
 CSS3 – styling with flex, layouts
 
+For Using Audio file in my html i did it with the help of W3Schools  
+
+link : https://www.w3schools.com/tags/tag_audio.asp
+
+For Highlighting the button function i did it with the help of Stackover Flow
+
+link : https://stackoverflow.com/questions/63908648/settimeout-classlist-add-remove-very-erratic
+
+To get a colour number i used random MATH fuction, which i refered from W3Schools
+
+link: https://www.w3schools.com/js/js_random.asp
+
+
+
 ## Next Steps (Stretch Goals)
 
 - Add High Score Tracking with Local Storage.
