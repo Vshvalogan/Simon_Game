@@ -209,7 +209,6 @@ States:
 - labels: score, lives, status, enteredname
 - optional: snd-beep, snd-wrong, snd-next, snd-win, snd-lose (if using <audio> tags)
 
----
 
 ## High-Level Flow
 
@@ -260,7 +259,6 @@ States:
   - Quit Game:
     - go to Welcome screen (hide name/start/gamescreen)
 
----
 
 ## Function-Level Pseudocode
 
