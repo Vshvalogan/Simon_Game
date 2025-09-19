@@ -5,20 +5,17 @@ let playerIndex = 0;
 let palette = [];    
 let currentLevel = "Easy";
 let seqLen = 4;
-let roundsWon = 0;        // how many rounds won in this game (0..3)
-const nextRoundTarget = 3; // win after 3 rounds
+let roundsWon = 0;       
+const nextRoundTarget = 3; 
 let lives = 1;
 let gameOver = false;
-// ---- Sounds (make sure filenames & path are correct) ----
-// ---- Sounds (grab existing <audio> elements) ----
 const SND = {
   beep:  document.getElementById("snd-beep"),
-  wrong: document.getElementById("snd-wrong"),
+  wrong: document.getElementById("snd-wrong"),   //https://www.w3schools.com/tags/tag_audio.asp
   next:  document.getElementById("snd-next"),
   win:   document.getElementById("snd-win"),
   lose:  document.getElementById("snd-lose"),
 };
-
 
 
 /*-------------------------------- Variables --------------------------------*/
@@ -27,11 +24,12 @@ const SND = {
 
 const levelButtons = document.querySelectorAll(".level");
 const getname = document.getElementById("nameSubmit");
-const startgame = document.getElementById("start-game-button")
-const resetgame = document.getElementById("reset-btn")
+const startgame = document.getElementById("start-game-button");
 const gameButtons = document.querySelectorAll(".btn");
 const start = document.getElementById("start-color-button");
 const nextRoundBtn = document.getElementById("next-round-button");
+const playAgainBtn = document.getElementById("play-again-btn");
+const quitBtn = document.getElementById("quit-btn");
 
 /*-------------------------------- Functions --------------------------------*/
 function handleLevelClick(e) {
@@ -54,30 +52,53 @@ function handleStartgame() {
   document.getElementById("gamescreen").classList.remove("hide");
   roundsWon = 0;
   nextRoundBtn.classList.add("hide");
+
+  if (currentLevel === "Hard") {
+    lives = 4;
+  } else if (currentLevel === "Difficult") {
+    lives = 3;
+  } else {
+    lives = 2;
+  }
+  document.getElementById("lives").textContent = `Lives: ${lives}`;
+
   coloursequence();
 }
 
 
-function handlereset(){
-  const name = document.getElementById("enteredname").textContent;
+
+function handlePlayAgain() {
   score = 0;
+  roundsWon = 0;
+  gameOver = false;
+
   document.getElementById("score").textContent = `Score: ${score}`;
   document.getElementById("gamescreen").classList.add("hide");
   document.getElementById("status").classList.add("hide");
-  document.getElementById("welcomeScreen").classList.add("hide");
   document.getElementById("start").classList.remove("hide");
   document.querySelector("#start h2").textContent = "Ready to play again?";
   document.getElementById("start-color-button").classList.remove("hide");
-  document.getElementById("enteredname").textContent = name;
+  nextRoundBtn.classList.add("hide");
+}
+function handleQuitGame() {
+  score = 0;
   roundsWon = 0;
+  gameOver = false;
+
+  document.getElementById("score").textContent = `Score: ${score}`;
+  document.getElementById("gamescreen").classList.add("hide");
+  document.getElementById("name").classList.add("hide");
+  document.getElementById("start").classList.add("hide");
+  document.getElementById("status").classList.add("hide");
   nextRoundBtn.classList.add("hide");
 
+  document.getElementById("welcomeScreen").classList.remove("hide");
 }
+
 
 function highlightButton(colorId) {
   const btn = document.getElementById(colorId);
   btn.classList.add("active");
-  // play beep on every highlight (sequence + correct click)
   playSound(SND.beep);
 
   setTimeout(() => {
@@ -85,30 +106,29 @@ function highlightButton(colorId) {
   }, 500); 
 }
 
-function coloursequence(){
-  // Hide all extras first
-  ["orange","purple","pink","cyan"].forEach(id =>
-    document.getElementById(id).classList.add("hide")
-  );
+function coloursequence() {
+  const extras = ["orange", "purple", "pink", "cyan"];
+  for (let i = 0; i < extras.length; i++) {
+    document.getElementById(extras[i]).classList.add("hide");
+  }
 
-  // Base 4
-  palette = ["green","red","yellow","blue"];
+  palette = ["green", "red", "yellow", "blue"];
+  seqLen = 4;
 
   if (currentLevel === "Difficult") {
-    // 6 colours, 8 steps
-    palette = ["green","red","yellow","blue","orange","purple"];
+    palette = ["green", "red", "yellow", "blue", "orange", "purple"];
     seqLen = 6;
-    ["orange","purple"].forEach(id =>
-      document.getElementById(id).classList.remove("hide")
-    );
+    const difficultExtras = ["orange", "purple"];
+    for (let i = 0; i < difficultExtras.length; i++) {
+      document.getElementById(difficultExtras[i]).classList.remove("hide");
+    }
   } else if (currentLevel === "Hard") {
-    // 8 colours, 10 steps
-    palette = ["green","red","yellow","blue","orange","purple","pink","cyan"];
+    palette = ["green", "red", "yellow", "blue", "orange", "purple", "pink", "cyan"];
     seqLen = 8;
-    ["orange","purple","pink","cyan"].forEach(id =>
-      document.getElementById(id).classList.remove("hide")
-    );
-              
+    const hardExtras = ["orange", "purple", "pink", "cyan"];
+    for (let i = 0; i < hardExtras.length; i++) {
+      document.getElementById(hardExtras[i]).classList.remove("hide");
+    }
   }
 
   colournumber = [];
@@ -116,16 +136,9 @@ function coloursequence(){
     const randomNumber = Math.floor(Math.random() * palette.length);
     colournumber.push(randomNumber);
   }
-  if (currentLevel === "Hard") {
-  lives = 3;
-  } else if (currentLevel === "Difficult") {
-  lives = 2;
-  } else {
-  lives = 1; // Easy
-  }
 
+  
 }
-
 
 
 function sequencehighlight(){
@@ -135,6 +148,10 @@ function sequencehighlight(){
       highlightButton(x); 
     }, i * 800); // https://stackoverflow.com/questions/63908648/settimeout-classlist-add-remove-very-erratic
   }
+  const totalTime = colournumber.length * 800; // matches the delay used above
+  setTimeout(() => {
+    document.getElementById("status").textContent = "Status: Your Turn";
+  }, totalTime + 100);
 
 }
 
@@ -160,19 +177,16 @@ function handleGameButtonClick(colorId){
   const livesBox = document.getElementById("lives");
   if (livesBox) livesBox.textContent = `Lives: ${lives}`;
 
-  // play "wrong" sound on every wrong click
   playSound(SND.wrong);
 
   if (lives <= 0) {
     document.getElementById("status").textContent = "Life over — Game ends.";
     gameOver = true;
     nextRoundBtn.classList.add("hide");
-    // overall lose sound
     playSound(SND.lose);
     return;
   }
 
-  // still have lives: inform and replay same sequence
   document.getElementById("status").textContent = `Wrong! Lives left: ${lives}. Watch the sequence again.`;
   document.getElementById("start-color-button").classList.add("hide");
   playerIndex = 0;
@@ -185,7 +199,6 @@ function handleGameButtonClick(colorId){
   if (playerIndex === colournumber.length) {
   document.getElementById("status").textContent = "Status: You win!";
 
-  // Score by difficulty
   if (seqLen === 8) {
     score = score + 3;
   } else if (seqLen === 6) {
@@ -195,16 +208,13 @@ function handleGameButtonClick(colorId){
   }
   document.getElementById("score").textContent = `Score: ${score}`;
 
-  // Round progression
   roundsWon += 1;
 
   if (roundsWon >= nextRoundTarget) {
     document.getElementById("status").textContent = "🎉 You won the game!";
     nextRoundBtn.classList.add("hide");
-    // overall win sound
     playSound(SND.win);
   } else {
-    // show Next Round button & play next-level sound
     nextRoundBtn.classList.remove("hide");
     document.getElementById("status").textContent = `Round ${roundsWon} complete — press Next Round`;
     playSound(SND.next);
@@ -215,18 +225,15 @@ function handleGameButtonClick(colorId){
 }
 
 function handleNextRound() {
-  // prepare next round in same level
   gameOver = false;
   playerIndex = 0;
   document.getElementById("status").textContent = "Status: Watch your Sequence";
-  nextRoundBtn.classList.add("hide");          // hide the button while playing
-  document.getElementById("start-color-button").classList.add("hide"); // keep Start hidden
+  nextRoundBtn.classList.add("hide");          
+  document.getElementById("start-color-button").classList.add("hide"); 
 
-  // new sequence, same level
   coloursequence();
   sequencehighlight();
 }
-// small helper so rapid repeats work
 function playSound(audio) {
   try {
     audio.currentTime = 0;
@@ -236,6 +243,7 @@ function playSound(audio) {
 }
 
 
+
 /*----------------------------- Event Listeners -----------------------------*/
 
 for (let i = 0; i < levelButtons.length; i++) {
@@ -243,7 +251,8 @@ for (let i = 0; i < levelButtons.length; i++) {
 }
 getname.addEventListener("click", handleNameSubmit);
 startgame.addEventListener("click", handleStartgame);
-resetgame.addEventListener("click",handlereset);
+playAgainBtn.addEventListener("click", handlePlayAgain);
+quitBtn.addEventListener("click", handleQuitGame);
 start.addEventListener("click",handlestart);
 
 for (let i = 0; i < gameButtons.length; i++) {
@@ -251,6 +260,5 @@ for (let i = 0; i < gameButtons.length; i++) {
     handleGameButtonClick(gameButtons[i].id);
   });
 } 
-resetgame.addEventListener("click",handlereset);
 nextRoundBtn.addEventListener("click", handleNextRound);
 

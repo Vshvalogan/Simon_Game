@@ -1,53 +1,91 @@
-User Stories
+Simon Game – User Stories
+1. Choose a Level
 
-1. Choose a level
+As a player I can choose a difficulty level (Easy, Difficult, or Hard) from the welcome screen.
 
-As a player I will be able to choose a level to start by choosing a button from 3 levels.
+Each level sets a different number of colors and lives:
 
-As a player I will know that I need to complete the level chosen to win the game.
+Easy → 4 colors, 2 lives
 
-2. Enter the player name
+Difficult → 6 colors, 3 lives
 
-As a player I need to enter my name in a text box.
+Hard → 8 colors, 4 lives
 
-3. Start the game
+As a player I know that I need to complete 3 rounds of my chosen level to win the game.
 
-As a player I will press the start button to begin the game.
+2. Enter Player Name
 
-By clicking the start button the score should reset to zero.
+As a player I must enter my name in the text box.
 
-4. See the sequence
+After entering my name, I can continue to the start screen.
 
-As a player I want the game to highlight the sequence of colors one by one so that it can be memorized.
+3. Start the Game
 
-The number of colors in the sequence should increase with each level.
+As a player I press the Start Game button to begin.
 
-5. Repeat the sequence
+When I start, my score resets to 0.
 
-As a player I want to click the color buttons to repeat the sequence.
+The game screen is shown with the score, lives, and color buttons.
 
-As a player I want each click to be checked instantly and produce audio while I click.
+4. See the Sequence
 
-As a player I can mute the sound if I want by clicking the mute button.
+As a player I see the sequence of colors highlighted one by one.
 
-6. If a mistake is detected
+The sequence length depends on the chosen level.
 
-As a player I want the game to tell me when I make a mistake so that I know the game is over.
+After the sequence finishes, the status changes to "Your Turn".
 
-As a player I want “Wrong” or “Game Over” to be displayed when a mistake is detected.
+5. Repeat the Sequence
 
-7. Score to be tracked
+As a player I must click the buttons in the same order as shown.
 
-As a player I want the score to be tracked after each level, and if I make a mistake in a level the previous score should be displayed and the game should end.
+Each click is instantly checked against the sequence.
 
-8. Restart easily
+Each correct click plays a beep sound.
 
-As a player I can easily restart.
+A Mute button on the top right allows me to toggle sound on/off.
 
-When I restart it should go back to the welcome screen.
+6. Mistakes and Lives
 
-9. High score tracking (try)
+As a player if I click the wrong button:
 
-As a player when the game ends the high score must be remembered.
+I lose one life and hear the wrong sound.
 
-When I play again it should compare my new score and update if higher.
+The status shows my remaining lives.
+
+The same sequence is replayed for me to try again.
+
+If all lives are lost:
+
+The game ends with “Life Over – Game Ends”.
+
+A lose sound plays.
+
+7. Winning a Round
+
+As a player when I complete the sequence correctly:
+
+I win the round, my score increases based on difficulty:
+
+Easy → +1
+
+Difficult → +2
+
+Hard → +3
+
+I hear the next level sound.
+
+A Next Round button appears to continue.
+
+After winning 3 rounds in a row, I win the game:
+
+The status shows “🎉 You won the game!”.
+
+A win sound plays.
+
+8. Restart and Quit
+
+As a player I can click Play Again to restart from the start screen with score reset.
+
+As a player I can click Quit Game to return to the welcome screen and choose a level again.
+

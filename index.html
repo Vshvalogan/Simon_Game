@@ -12,7 +12,6 @@
 
 </head>
 <body>
-  <!-- preloaded & hidden -->
 <audio id="snd-beep"  src="./beep.mp3"        preload="auto"></audio>
 <audio id="snd-wrong" src="./wrong.mp3"       preload="auto"></audio>
 <audio id="snd-next"  src="./next_level.mp3"  preload="auto"></audio>
@@ -49,7 +48,7 @@
 <!-- Game Screen -->
   <section id="gamescreen" class="hide">
     <div id="score">Score: 0</div>
-    <div id="lives"></div>
+    <div ><h3 id="lives"></h3></div>
     <div id="level" class="hide">Level: 0</div>
     <h2 id="status" class = "hide"></h2>
     <div id="game-board">
@@ -64,7 +63,9 @@
     </div>
     <button class="start-btn" id="start-color-button">Start</button>
     <button class="start-btn hide" id="next-round-button">Next Round</button> 
-    <button id="reset-btn">Reset</button>
+    <button id="play-again-btn">Play Again</button>
+    <button id="quit-btn">Quit Game</button>
+
   </section>
 </body>
 </html>

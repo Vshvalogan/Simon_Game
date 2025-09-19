@@ -36,7 +36,16 @@ body {
     #purple { background: purple; }
     #pink   { background: hotpink; }
     #cyan   { background: cyan; }
-    #reset-btn {
+    #play-again-btn {
+      margin-top: 30px;
+      padding: 12px 32px;
+      font-size: 1.2em;
+      border-radius: 8px;
+      border: none;
+      background: grey;
+      color: white;
+    }
+    #quit-btn {
       margin-top: 30px;
       padding: 12px 32px;
       font-size: 1.2em;
@@ -54,6 +63,7 @@ body {
       background: grey;
       color: white;
     }
+
     #nameSubmit{
       margin-top: 30px;
       padding: 12px 32px;
