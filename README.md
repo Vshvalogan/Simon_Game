@@ -103,8 +103,6 @@ Each click is instantly checked against the sequence.
 
 Each correct click plays a beep sound.
 
-A Mute button on the top right allows me to toggle sound on/off.
-
 6. Mistakes and Lives
 
 As a player if I click the wrong button:
@@ -200,7 +198,6 @@ States:
 - nextRoundTarget: 3
 - lives: number                  
 - gameOver: boolean
-- isMuted: boolean
 
 ## Screen Elements (IDs)
 - welcomeScreen, name, start, gamescreen
@@ -311,7 +308,7 @@ sequencehighlight():
 
 highlightButton(colorId):
   add .active to button
-  play beep (guard by mute)
+  play beep 
   setTimeout(500) -> remove .active
 
 handleGameButtonClick(colorId):
@@ -378,13 +375,8 @@ handleQuitGame():
   show(welcomeScreen)
 
 playSound(audio):
-  if isMuted -> return
   audio.currentTime = 0
   audio.play().catch(noop)
-
-muteBtn click:
-  toggle isMuted
-  button text = "Mute"/"Unmute"
 
 ##  Attributions
 
