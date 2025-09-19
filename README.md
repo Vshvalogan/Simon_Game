@@ -191,14 +191,14 @@ States:
 
 ## Key State
 - score: number
-- colournumber: number[]           // sequence of indices into palette
-- playerIndex: number              // where the player is in the sequence
-- palette: string[]                // available colors for the level
+- colournumber: number[]           
+- playerIndex: number             
+- palette: string[]                
 - currentLevel: "Easy" | "Difficult" | "Hard"
-- seqLen: number                   // sequence length for the level
-- roundsWon: number                // 0..3
+- seqLen: number                  
+- roundsWon: number               
 - nextRoundTarget: 3
-- lives: number                    // lives for the game (set once at start)
+- lives: number                  
 - gameOver: boolean
 - isMuted: boolean
 
@@ -334,10 +334,8 @@ handleGameButtonClick(colorId):
      setTimeout(600) -> sequencehighlight()
      return
 
-  // correct click
   playerIndex++
   if playerIndex == colournumber.length:
-     // round won
      add score by difficulty
      update score label
      roundsWon++
