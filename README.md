@@ -38,7 +38,7 @@ I chose to create this project because Simon Game is fun, nostalgic, and engagin
 # Getting Started
 
 🔗 Play the Game Here
-GitHub Pages Link : 
+GitHub Pages Link : https://vshvalogan.github.io/Simon_Game/
 
 Instructions:
 
